@@ -1,0 +1,54 @@
+class Coffee:
+    # Constructor
+    def __init__(self, name, price):
+        self.name = name
+        self.price = float(price)
+    
+    def check_budget(self, budget):
+        # Check if the budget is valid
+        if not isinstance(budget, (int, float)):
+            print('Enter a valid number (float or int)')
+            exit()
+        if budget < 0:
+            print('Sorry, you don\'t have enough money')
+            exit()
+
+    def get_change(self, budget):
+        return budget - self.price
+    
+    def sell(self, budget):
+        self.check_budget(budget)
+        if budget >= self.price:
+            print(f'You can buy the {self.name} coffee')
+            if budget == self.price:
+                print('It\'s complete')
+            else:
+                print(f'Here is your change: {self.get_change(budget)}$')
+            exit('Thanks for your transaction')
+        else:
+            print(f'You need at least {self.price - budget}$ more to buy the {self.name} coffee')
+
+# Create coffee instances
+small_coffee = Coffee('small', 2)
+regular_coffee = Coffee('regular', 5)
+big_coffee = Coffee('big', 6)
+
+# Prompt user for their budget
+user_budget = input('What is your budget? ')
+
+# Try to convert the input to a float (to handle both integers and floats)
+try:
+    user_budget = float(user_budget)
+except ValueError:
+    print('Please enter a valid number')
+    exit()
+
+# Check which coffee the user can afford, starting from the most expensive
+if user_budget >= big_coffee.price:
+    big_coffee.sell(user_budget)
+elif user_budget >= regular_coffee.price:
+    regular_coffee.sell(user_budget)
+elif user_budget >= small_coffee.price:
+    small_coffee.sell(user_budget)
+else:
+    print('Sorry, you cannot afford any coffee')
